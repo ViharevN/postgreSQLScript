@@ -31,7 +31,7 @@ select * from employee;
 
 select first_name AS Имя,
        last_name AS Фамилия
-from employee group by Имя, Фамилия;
+from employee;
 
 select last_name AS Фамилия,
        age AS Возраст
@@ -61,7 +61,7 @@ order by Возраст desc, Имя, Фамилия;
 select last_name AS Фамилия,
        id AS Номер
 from employee
-order by id desc;
+order by Фамилия desc;
 
 select first_name AS Имя
 from employee group by first_name
