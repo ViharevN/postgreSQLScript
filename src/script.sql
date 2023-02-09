@@ -91,3 +91,62 @@ from employee GROUP BY Имя
 HAVING count(first_name)>1
 order by Максимальный_Возраст;
 
+--Задание Выборка данных и вложенные запросы
+
+
+create table city (
+                      city_id BIGSERIAL primary key ,
+                      city_name varchar(20) not null
+);
+alter table employee
+    add column city_id bigint references city(city_id);
+
+select *
+from employee;
+
+insert into city (city_name)
+values ('Moscow'),
+       ('Peterbourg'),
+       ('Novgorod');
+
+update employee set city_id = (
+    select city_id from city where city_name = 'Moscow'
+)
+where first_name = 'Ann';
+update employee set city_id = (
+    select city_id from city where city_name = 'Novgorod'
+)
+where first_name = 'Ivan';
+
+update employee set city_id = (
+    select city_id from city where city_name = 'Peterbourg'
+)
+where first_name = 'Vasily';
+
+select * from city;
+select * from employee;
+
+insert into employee (first_name, last_name, gender, age) VALUES ('Vera', 'Sergeevna', 'woman',20);
+
+
+select e.first_name, e.last_name, c.city_name
+from employee e
+         inner join city c on e.city_id = c.city_id;
+
+select e.first_name, e.last_name, c.city_name
+from city c
+         right join employee e on c.city_id = e.city_id;
+
+select e.first_name, e.last_name, c.city_name
+from city c
+         left join employee e on e.city_id = c.city_id;
+
+insert into city (city_name) values ('Volgograd');
+
+select e.first_name, c.city_name
+from city c
+         full join employee e on e.city_id = c.city_id;
+
+select e.first_name, c.city_name
+from city c
+         cross join employee e;
